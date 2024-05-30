@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { JobItem } from "@/model/job-item";
 import { delay } from "@/utils/utils";
 import { useParams } from "react-router-dom";
@@ -45,7 +46,7 @@ const JobPage = () => {
           </div>
         </div>
         {/* company */}
-        <div className="flex flex-col md:col-span-1">
+        <div className="mt-2 flex flex-col md:col-span-1 md:mt-0">
           <div className="flex w-full flex-col rounded-md bg-white p-4">
             <p className="text-[16px] font-bold">Company Info</p>
             <p className="mt-3 text-[18px] font-medium">
@@ -86,5 +87,50 @@ const JobPage = () => {
 export default JobPage;
 
 const JobPageSkeleton = () => {
-  return <div>JobPageSkeleton</div>;
+  return (
+    <div className="w-full flex-1 overflow-y-auto bg-blue-50 p-4">
+      <div className="flex flex-col md:grid md:grid-cols-3 md:gap-2">
+        {/* job */}
+        <div className="flex flex-col md:col-span-2">
+          <div className="w-full rounded-md bg-white p-4">
+            <Skeleton className="h-2 w-[150px]" />
+            <Skeleton className="mt-2 h-4 w-[175px]" />
+            <Skeleton className="mt-2 h-2 w-[135px]" />
+          </div>
+          <div className="mt-2 w-full rounded-md bg-white p-4">
+            <Skeleton className="h-3 w-[150px]" />
+            <Skeleton className="mt-2 h-2 w-full" />
+            <Skeleton className="mt-[3px] h-2 w-[90vw]" />
+            <Skeleton className="mt-[3px] h-2 w-[65vw]" />
+            <Skeleton className="mt-2 h-3 w-[150px]" />
+            <Skeleton className="mt-2 h-2 w-[20vw]" />
+          </div>
+        </div>
+        {/* company */}
+        <div className="mt-2 flex flex-col md:col-span-1 md:mt-0">
+          <div className="flex w-full flex-col rounded-md bg-white p-4">
+            <Skeleton className="h-3 w-[20vw]" />
+            <Skeleton className="mt-3 h-4 w-[30vw]" />
+            <Skeleton className="mt-1 h-2 w-[95vw]" />
+            <Skeleton className="mt-[3px] h-2 w-[90vw]" />
+            <Skeleton className="mt-[3px] h-2 w-[71vw]" />
+            <div className="mt-2 h-[1px] w-full bg-slate-200" />
+            <Skeleton className="mt-2 h-4 w-[31vw]" />
+            <Skeleton className="mt-1 h-5 w-full" />
+            <Skeleton className="mt-2 h-4 w-[31vw]" />
+            <Skeleton className="mt-1 h-5 w-full" />
+          </div>
+          <div className="mt-2 flex w-full flex-col rounded-md bg-white p-4">
+            <p className="text-[16px] font-bold">Manage Job</p>
+            <Button className="mt-3 rounded-full bg-purple-600 hover:bg-purple-700">
+              Edit Job
+            </Button>
+            <Button className="mt-2 rounded-full bg-red-600 hover:bg-red-700">
+              Delete Job
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };

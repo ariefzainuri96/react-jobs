@@ -1,12 +1,17 @@
 import useSWR from "swr";
 import { JobItem } from "../../model/job-item";
 import JobListItem from "./job-list-item";
-import { delay } from "../../utils/utils";
 import { Skeleton } from "../ui/skeleton";
+import { twMerge } from "tailwind-merge";
 
-const JobListing = ({ showAll = false }: { showAll?: boolean }) => {
+const JobListing = ({
+  showAll = false,
+  className,
+}: {
+  showAll?: boolean;
+  className?: string;
+}) => {
   const { data, error, isLoading } = useSWR("/jobs", async () => {
-    await delay(1000);
     const res = await fetch("http://localhost:8000/jobs");
     const data: JobItem[] = await res.json();
 
@@ -18,7 +23,7 @@ const JobListing = ({ showAll = false }: { showAll?: boolean }) => {
   }
 
   return (
-    <section className="bg-blue-50 px-4 py-10">
+    <section className={twMerge("bg-blue-50 px-4 py-10", className)}>
       <div className="container-xl m-auto lg:container">
         {!showAll && (
           <h2 className="mb-6 text-center text-3xl font-bold text-indigo-500">
