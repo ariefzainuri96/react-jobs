@@ -4,11 +4,13 @@ import { Toaster } from "@/components/ui/toaster";
 
 const MainLayout = () => {
   return (
-    <>
-      <Navbar />
-      <Outlet />
-      <Toaster />
-    </>
+    <div className="h-screen w-screen overflow-hidden">
+      <div className="flex h-full w-full flex-col overflow-hidden">
+        <Navbar />
+        <Outlet />
+        <Toaster />
+      </div>
+    </div>
   );
 };
 

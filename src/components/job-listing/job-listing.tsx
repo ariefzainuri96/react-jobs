@@ -17,8 +17,6 @@ const JobListing = ({ showAll = false }: { showAll?: boolean }) => {
     return <p>Error...</p>;
   }
 
-  data?.map((element) => console.log(element));
-
   return (
     <section className="bg-blue-50 px-4 py-10">
       <div className="container-xl m-auto lg:container">
@@ -30,8 +28,8 @@ const JobListing = ({ showAll = false }: { showAll?: boolean }) => {
 
         {isLoading && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {[1, 1, 1].map((_) => {
-              return <JobListingSkeleton />;
+            {[1, 1, 1].map((_, index) => {
+              return <JobListingSkeleton key={index} />;
             })}
           </div>
         )}
