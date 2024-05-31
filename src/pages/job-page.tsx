@@ -1,3 +1,4 @@
+import BackButton from "@/components/back-button";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { JobItem } from "@/model/job-item";
@@ -9,7 +10,7 @@ const JobPage = () => {
   const { id } = useParams();
 
   const { data, error, isLoading } = useSWR(`/jobs/${id}`, async () => {
-    await delay(5000);
+    await delay(1000);
     const res = await fetch(`http://localhost:8000/jobs/${id}`);
     const data: JobItem = await res.json();
 
@@ -27,8 +28,9 @@ const JobPage = () => {
   return (
     <div className="w-full flex-1 overflow-y-auto bg-blue-50 p-4">
       <div className="flex flex-col md:grid md:grid-cols-3 md:gap-2">
+        <BackButton />
         {/* job */}
-        <div className="flex flex-col md:col-span-2">
+        <div className="mt-2 flex flex-col md:col-span-2 md:mt-0">
           <div className="w-full rounded-md bg-white p-4">
             <p className="text-[12px] text-slate-500">{data?.type ?? ""}</p>
             <p className="mt-2 text-2xl font-bold">{data?.title ?? ""}</p>

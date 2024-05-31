@@ -23,7 +23,7 @@ const JobsPage = () => {
         );
       }}
     >
-      <JobListing showAll={true} />
+      <JobListing showAll={true} className="py-4" />
     </div>
   );
 };

@@ -5,13 +5,23 @@ import CustomArea from "@/components/custom-area";
 import { Button } from "@/components/ui/button";
 
 const AddJobPage = () => {
-  const { jobType, job, salary, setJob, handleCompanyChange, handleChange } =
-    useAddJob();
+  const {
+    jobType,
+    jobErrorMessage,
+    addJob,
+    salary,
+    setJob,
+    handleCompanyChange,
+    handleChange,
+  } = useAddJob();
 
   return (
+    /* scroll parent */
     <div className="w-full flex-1 overflow-y-auto bg-blue-50">
-      <div className="flex flex-col items-center py-10">
-        <div className="flex min-w-[500px] max-w-[500px] flex-col rounded-md bg-white p-4">
+      {/* column */}
+      <div className="flex flex-col items-center px-4 py-4">
+        {/* form */}
+        <div className="mt-2 flex w-full flex-col rounded-md bg-white p-4 md:max-w-[500px]">
           <p className="self-center text-2xl font-bold">Add Job</p>
           <CustomSelect
             className="mt-4"
@@ -22,6 +32,10 @@ const AddJobPage = () => {
                 return { ...prev, type: jobType[Number(e)].content };
               });
             }}
+            message={
+              jobErrorMessage?.find((element) => element.name.includes("type"))
+                ?.message
+            }
           />
           <CustomInput
             name="title"
@@ -29,6 +43,10 @@ const AddJobPage = () => {
             label="Job Listing Name"
             onChange={handleChange}
             placeholder="eg. Beatiful Apartment in Miami"
+            message={
+              jobErrorMessage?.find((element) => element.name.includes("title"))
+                ?.message
+            }
           />
           <CustomArea
             name="description"
@@ -36,6 +54,11 @@ const AddJobPage = () => {
             label="Description"
             placeholder="Add any job duties, expectations, requirements, etc"
             onChange={handleChange}
+            message={
+              jobErrorMessage?.find((element) =>
+                element.name?.includes("description"),
+              )?.message
+            }
           />
           <CustomSelect
             className="mt-2"
@@ -46,6 +69,11 @@ const AddJobPage = () => {
                 return { ...prev, salary: salary[Number(e)].content };
               });
             }}
+            message={
+              jobErrorMessage?.find((element) =>
+                element.name.includes("salary"),
+              )?.message
+            }
           />
           <CustomInput
             name="location"
@@ -53,6 +81,11 @@ const AddJobPage = () => {
             label="Location"
             onChange={handleChange}
             placeholder="Company Location"
+            message={
+              jobErrorMessage?.find((element) =>
+                element.name?.includes("location"),
+              )?.message
+            }
           />
           <p className="mt-3 text-[18px] font-medium">Company Info</p>
           <CustomInput
@@ -61,6 +94,10 @@ const AddJobPage = () => {
             label="Company Name"
             onChange={handleCompanyChange}
             placeholder="Company Name"
+            message={
+              jobErrorMessage?.find((element) => element.name.includes("name"))
+                ?.message
+            }
           />
           <CustomArea
             name="description"
@@ -68,6 +105,13 @@ const AddJobPage = () => {
             label="Company Description"
             placeholder="Company Description"
             onChange={handleCompanyChange}
+            message={
+              jobErrorMessage?.find(
+                (element) =>
+                  element.name.includes("company") &&
+                  element.name.includes("description"),
+              )?.message
+            }
           />
           <CustomInput
             name="contactEmail"
@@ -76,6 +120,11 @@ const AddJobPage = () => {
             label="Company Email"
             onChange={handleCompanyChange}
             placeholder="Company Email"
+            message={
+              jobErrorMessage?.find((element) =>
+                element.name.includes("contactEmail"),
+              )?.message
+            }
           />
           <CustomInput
             name="contactPhone"
@@ -83,10 +132,16 @@ const AddJobPage = () => {
             label="Company Phone"
             onChange={handleCompanyChange}
             placeholder="Company Phone"
+            message={
+              jobErrorMessage?.find((element) =>
+                element.name.includes("contactPhone"),
+              )?.message
+            }
           />
           <Button
-            onClick={() => {
-              console.log(job);
+            onClick={(e) => {
+              e.preventDefault();
+              addJob();
             }}
             className="mt-4"
           >

@@ -6,6 +6,7 @@ import ViewAllJobs from "../components/view-all-jobs";
 
 const HomePage = () => {
   const divRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const scrollPosition = localStorage.getItem("scrollPosition");
     if (scrollPosition && divRef.current) {
@@ -23,8 +24,6 @@ const HomePage = () => {
           "scrollPosition",
           `${event.currentTarget.scrollTop}`,
         );
-
-        console.log(`scrollY ${localStorage.getItem("scrollPosition")}`);
       }}
     >
       <Hero />

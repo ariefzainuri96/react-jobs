@@ -7,6 +7,7 @@ type CustomAreaProps = {
   name?: string;
   enable?: boolean;
   className?: string;
+  message?: string;
 } & ComponentProps<"textarea">;
 
 const CustomArea = ({
@@ -14,6 +15,7 @@ const CustomArea = ({
   label,
   placeholder,
   name,
+  message,
   enable = true,
   ...props
 }: CustomAreaProps) => {
@@ -30,6 +32,7 @@ const CustomArea = ({
         )}
         {...props}
       />
+      {message && <p className="mt-1 text-sm text-red-300">{message}</p>}
     </div>
   );
 };

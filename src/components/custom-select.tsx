@@ -17,6 +17,7 @@ type CustomSelectProps = {
   data: SelectItem[];
   className?: string;
   placeholder?: string;
+  message?: string;
   onValueChange: (e: string) => void;
 };
 
@@ -24,6 +25,7 @@ const CustomSelect = ({
   label,
   className,
   data,
+  message,
   placeholder = "Select",
   onValueChange,
 }: CustomSelectProps) => {
@@ -44,6 +46,7 @@ const CustomSelect = ({
           })}
         </SelectContent>
       </Select>
+      {message && <p className="mt-1 text-sm text-red-300">{message}</p>}
     </div>
   );
 };
