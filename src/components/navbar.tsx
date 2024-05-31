@@ -1,9 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/images/logo.png";
-import { useToast } from "./ui/use-toast";
+// import { useToast } from "./ui/use-toast";
 
 const Navbar = () => {
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const linkClassName = (isActive: boolean) =>
     isActive
       ? "rounded-md bg-black px-3 py-2 text-white hover:bg-gray-900 hover:text-white"
@@ -37,18 +37,18 @@ const Navbar = () => {
                   Jobs
                 </NavLink>
                 <NavLink
-                  onClick={(e) => {
-                    e.preventDefault();
+                  // onClick={(e) => {
+                  //   e.preventDefault();
 
-                    const { dismiss } = toast({
-                      title: "Feature Not Available",
-                      description: "We'll notify if this feature is update!",
-                    });
+                  //   const { dismiss } = toast({
+                  //     title: "Feature Not Available",
+                  //     description: "We'll notify if this feature is update!",
+                  //   });
 
-                    setTimeout(function callbackFunction() {
-                      dismiss();
-                    }, 2000);
-                  }}
+                  //   setTimeout(function callbackFunction() {
+                  //     dismiss();
+                  //   }, 2000);
+                  // }}
                   to="/add-job"
                   className={({ isActive }) => linkClassName(isActive)}
                 >

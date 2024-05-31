@@ -9,7 +9,7 @@ const JobPage = () => {
   const { id } = useParams();
 
   const { data, error, isLoading } = useSWR(`/jobs/${id}`, async () => {
-    await delay(1000);
+    await delay(5000);
     const res = await fetch(`http://localhost:8000/jobs/${id}`);
     const data: JobItem = await res.json();
 
@@ -100,24 +100,24 @@ const JobPageSkeleton = () => {
           <div className="mt-2 w-full rounded-md bg-white p-4">
             <Skeleton className="h-3 w-[150px]" />
             <Skeleton className="mt-2 h-2 w-full" />
-            <Skeleton className="mt-[3px] h-2 w-[90vw]" />
-            <Skeleton className="mt-[3px] h-2 w-[65vw]" />
+            <Skeleton className="mt-[3px] h-2 w-[90%]" />
+            <Skeleton className="mt-[3px] h-2 w-[65%]" />
             <Skeleton className="mt-2 h-3 w-[150px]" />
-            <Skeleton className="mt-2 h-2 w-[20vw]" />
+            <Skeleton className="mt-2 h-2 w-[20%]" />
           </div>
         </div>
         {/* company */}
         <div className="mt-2 flex flex-col md:col-span-1 md:mt-0">
           <div className="flex w-full flex-col rounded-md bg-white p-4">
-            <Skeleton className="h-3 w-[20vw]" />
-            <Skeleton className="mt-3 h-4 w-[30vw]" />
-            <Skeleton className="mt-1 h-2 w-[95vw]" />
-            <Skeleton className="mt-[3px] h-2 w-[90vw]" />
-            <Skeleton className="mt-[3px] h-2 w-[71vw]" />
+            <Skeleton className="h-3 w-[20%]" />
+            <Skeleton className="mt-3 h-4 w-[30%]" />
+            <Skeleton className="mt-1 h-2 w-[95%]" />
+            <Skeleton className="mt-[3px] h-2 w-[90%]" />
+            <Skeleton className="mt-[3px] h-2 w-[71%]" />
             <div className="mt-2 h-[1px] w-full bg-slate-200" />
-            <Skeleton className="mt-2 h-4 w-[31vw]" />
+            <Skeleton className="mt-2 h-4 w-[31%]" />
             <Skeleton className="mt-1 h-5 w-full" />
-            <Skeleton className="mt-2 h-4 w-[31vw]" />
+            <Skeleton className="mt-2 h-4 w-[31%]" />
             <Skeleton className="mt-1 h-5 w-full" />
           </div>
           <div className="mt-2 flex w-full flex-col rounded-md bg-white p-4">
