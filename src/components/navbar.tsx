@@ -37,18 +37,6 @@ const Navbar = () => {
                   Jobs
                 </NavLink>
                 <NavLink
-                  // onClick={(e) => {
-                  //   e.preventDefault();
-
-                  //   const { dismiss } = toast({
-                  //     title: "Feature Not Available",
-                  //     description: "We'll notify if this feature is update!",
-                  //   });
-
-                  //   setTimeout(function callbackFunction() {
-                  //     dismiss();
-                  //   }, 2000);
-                  // }}
                   to="/add-job"
                   className={({ isActive }) => linkClassName(isActive)}
                 >

@@ -5,9 +5,13 @@ import { JobItem } from "@/model/job-item";
 import { delay } from "@/utils/utils";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
+import { useJob } from "./use-job";
+import { LoadingSpinner } from "@/components/loading-spinner";
 
 const JobPage = () => {
   const { id } = useParams();
+
+  const { trigger, isMutating } = useJob();
 
   const { data, error, isLoading } = useSWR(`/jobs/${id}`, async () => {
     await delay(1000);
@@ -76,8 +80,21 @@ const JobPage = () => {
             <Button className="mt-3 rounded-full bg-purple-600 hover:bg-purple-700">
               Edit Job
             </Button>
-            <Button className="mt-2 rounded-full bg-red-600 hover:bg-red-700">
-              Delete Job
+            <Button
+              aria-disabled={isMutating || isLoading}
+              disabled={isMutating || isLoading}
+              onClick={() => {
+                const confirm = window.confirm(
+                  "Are you sure want to delete this job?",
+                );
+
+                if (!confirm) return;
+
+                trigger(data?.id ?? "");
+              }}
+              className="mt-2 rounded-full bg-red-600 hover:bg-red-700"
+            >
+              {isMutating ? <LoadingSpinner /> : "Delete Job"}
             </Button>
           </div>
         </div>
@@ -121,15 +138,6 @@ const JobPageSkeleton = () => {
             <Skeleton className="mt-1 h-5 w-full" />
             <Skeleton className="mt-2 h-4 w-[31%]" />
             <Skeleton className="mt-1 h-5 w-full" />
-          </div>
-          <div className="mt-2 flex w-full flex-col rounded-md bg-white p-4">
-            <p className="text-[16px] font-bold">Manage Job</p>
-            <Button className="mt-3 rounded-full bg-purple-600 hover:bg-purple-700">
-              Edit Job
-            </Button>
-            <Button className="mt-2 rounded-full bg-red-600 hover:bg-red-700">
-              Delete Job
-            </Button>
           </div>
         </div>
       </div>
