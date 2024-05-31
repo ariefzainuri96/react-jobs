@@ -12,7 +12,7 @@ const AddJobPage = () => {
     addJob,
     salary,
     job,
-    loading,
+    isMutating,
     setJob,
     handleCompanyChange,
     handleChange,
@@ -163,12 +163,12 @@ const AddJobPage = () => {
               }
             />
             <Button
-              aria-disabled={loading}
-              disabled={loading}
+              aria-disabled={isMutating}
+              disabled={isMutating}
               type="submit"
               className="mt-4"
             >
-              {loading ? <LoadingSpinner /> : "Create"}
+              {isMutating ? <LoadingSpinner /> : "Create"}
             </Button>
           </div>
         </form>

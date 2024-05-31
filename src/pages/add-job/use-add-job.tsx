@@ -1,20 +1,47 @@
 import { SelectItem } from "@/components/custom-select";
-import { useToast } from "@/components/ui/use-toast";
 import { JobItem } from "@/model/job-item";
 import { ValidationMessage } from "@/model/validation-message";
-import { delay } from "@/utils/utils";
+import { delay, showSimpleToast } from "@/utils/utils";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { mutate } from "swr";
+import useSWRMutation from "swr/mutation";
 import { z } from "zod";
 
 export default function useAddJob() {
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const [job, setJob] = useState<JobItem | undefined>();
   const [jobErrorMessage, setJobErrorMessage] = useState<ValidationMessage[]>();
-  const [loading, setLoading] = useState(false);
+
+  const { trigger, isMutating } = useSWRMutation("/jobs", async () => {
+    try {
+      await delay(1000);
+      const res = await fetch("http://localhost:8000/jobs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(job),
+      });
+      const data: JobItem = await res.json();
+
+      if (!res.ok) {
+        throw new Error("Failed to post job, please retry!");
+      }
+
+      navigate("/jobs");
+
+      showSimpleToast({
+        title: "Success!",
+        description: `Berhasil membuat job ${data.title}`,
+      });
+    } catch (error) {
+      showSimpleToast({
+        title: "Error!",
+        description: `${error}`,
+      });
+    }
+  });
 
   const addJobSchema = z
     .object({
@@ -118,35 +145,7 @@ export default function useAddJob() {
       return;
     }
 
-    try {
-      setLoading(true);
-      await delay(1000);
-      const res = await fetch("http://localhost:8000/jobs", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(job),
-      });
-      setLoading(false);
-
-      if (res.ok) {
-        await mutate("/jobs");
-        navigate("/jobs");
-      } else {
-        throw new Error("Failed to post job, please retry!");
-      }
-    } catch (error) {
-      setLoading(false);
-      const { dismiss } = toast({
-        title: "Error!",
-        description: `${error}`,
-      });
-
-      setTimeout(function callbackFunction() {
-        dismiss();
-      }, 2000);
-    }
+    trigger();
   }
 
   function handleChange(
@@ -184,6 +183,6 @@ export default function useAddJob() {
     handleCompanyChange,
     handleChange,
     jobType,
-    loading,
+    isMutating,
   };
 }

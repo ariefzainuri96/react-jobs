@@ -1,11 +1,9 @@
-import { useToast } from "@/components/ui/use-toast";
-import { delay } from "@/utils/utils";
+import { JobItem } from "@/model/job-item";
+import { delay, showSimpleToast } from "@/utils/utils";
 import { useNavigate } from "react-router-dom";
-import { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
 
 export const useJob = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const { trigger, isMutating } = useSWRMutation(
@@ -17,21 +15,23 @@ export const useJob = () => {
           method: "DELETE",
         });
 
+        const data: JobItem = await res.json();
+
         if (!res.ok) {
           throw new Error("Failed to delete job!");
         }
 
-        await mutate("/jobs");
         navigate("/jobs");
-      } catch (error) {
-        console.log(error);
 
-        const { dismiss } = toast({
-          title: "Error!",
+        showSimpleToast({
+          title: "Success!",
+          description: `Berhasil menghapus job ${data.title}`,
+        });
+      } catch (error) {
+        showSimpleToast({
+          title: "Failed!",
           description: `${error}`,
         });
-
-        setTimeout(() => dismiss(), 2000);
       }
     },
   );
