@@ -18,6 +18,7 @@ type CustomSelectProps = {
   className?: string;
   placeholder?: string;
   message?: string;
+  value?: string;
   onValueChange: (e: string) => void;
 };
 
@@ -26,13 +27,14 @@ const CustomSelect = ({
   className,
   data,
   message,
+  value,
   placeholder = "Select",
   onValueChange,
 }: CustomSelectProps) => {
   return (
     <div className={twMerge("flex flex-col", className)}>
       <label className="mb-2">{label}</label>
-      <Select onValueChange={onValueChange}>
+      <Select value={value} onValueChange={onValueChange}>
         <SelectTrigger className="w-full rounded-md border-[1px] border-slate-100 py-2">
           <SelectValue className="" placeholder={placeholder} />
         </SelectTrigger>

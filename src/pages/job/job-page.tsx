@@ -2,21 +2,20 @@ import BackButton from "@/components/back-button";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { JobItem } from "@/model/job-item";
-import { delay } from "@/utils/utils";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useSWR from "swr";
 import { useJob } from "./use-job";
 import { LoadingSpinner } from "@/components/loading-spinner";
+import { axiosInstance } from "@/data/axios";
 
 const JobPage = () => {
   const { id } = useParams();
 
   const { trigger, isMutating } = useJob();
 
-  const { data, error, isLoading } = useSWR(`/jobs/${id}`, async () => {
-    await delay(1000);
-    const res = await fetch(`http://localhost:8000/jobs/${id}`);
-    const data: JobItem = await res.json();
+  const { data, error, isLoading } = useSWR(`/jobs/${id}`, async (url) => {
+    const res = await axiosInstance.get(url);
+    const data: JobItem = res.data;
 
     return data;
   });
@@ -77,9 +76,12 @@ const JobPage = () => {
           </div>
           <div className="mt-2 flex w-full flex-col rounded-md bg-white p-4">
             <p className="text-[16px] font-bold">Manage Job</p>
-            <Button className="mt-3 rounded-full bg-purple-600 hover:bg-purple-700">
+            <Link
+              className="mt-3 rounded-full bg-purple-600 py-2 text-center text-white hover:bg-purple-700"
+              to={`/edit-job/${data?.id}`}
+            >
               Edit Job
-            </Button>
+            </Link>
             <Button
               aria-disabled={isMutating || isLoading}
               disabled={isMutating || isLoading}

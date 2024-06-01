@@ -15,20 +15,6 @@
       }
     },
     {
-      "id": "2",
-      "title": "Front-End Engineer (React & Redux)",
-      "type": "Full-Time",
-      "location": "Miami, FL",
-      "description": "Join our team as a Front-End Developer in sunny Miami, FL. We are looking for a motivated individual with a passion for crafting beautiful and responsive web applications. Experience with UI/UX design principles and a strong attention to detail are highly desirable.",
-      "salary": "$70K - $80K",
-      "company": {
-        "name": "Veneer Solutions",
-        "description": "Veneer Solutions is a creative agency specializing in digital design and development. Our team is dedicated to pushing the boundaries of creativity and innovation to deliver exceptional results for our clients.",
-        "contactEmail": "contact@loremipsum.com",
-        "contactPhone": "555-555-5555"
-      }
-    },
-    {
       "id": "3",
       "title": "React.js Dev",
       "type": "Full-Time",
@@ -71,16 +57,16 @@
       }
     },
     {
-      "id": "70a5",
-      "type": "Full Time",
-      "title": "asd",
-      "description": "asd",
-      "salary": "under $50K",
-      "location": "asd",
+      "id": "c707",
+      "type": "Part-Time",
+      "title": "Flutter Developer's",
+      "description": "Please provide more description about your job",
+      "salary": "$70K - $80K",
+      "location": "Yogyakarta",
       "company": {
-        "name": "ads",
-        "description": "ad",
-        "contactEmail": "asd@mail.com",
+        "name": "Arief Corp",
+        "description": "This is company description",
+        "contactEmail": "arief_@gmail.com",
         "contactPhone": "085792810600"
       }
     }

@@ -1,5 +1,6 @@
+import { axiosInstance } from "@/data/axios";
 import { JobItem } from "@/model/job-item";
-import { delay, showSimpleToast } from "@/utils/utils";
+import { showSimpleToast } from "@/utils/utils";
 import { useNavigate } from "react-router-dom";
 import useSWRMutation from "swr/mutation";
 
@@ -8,16 +9,15 @@ export const useJob = () => {
 
   const { trigger, isMutating } = useSWRMutation(
     "/jobs",
-    async (_, { arg }: { arg: string }) => {
+    async (url, { arg }: { arg: string }) => {
       try {
-        await delay(1000);
-        const res = await fetch(`http://localhost:8000/jobs/${arg}`, {
+        const res = await axiosInstance.delete(`${url}/${arg}`, {
           method: "DELETE",
         });
 
-        const data: JobItem = await res.json();
+        const data: JobItem = await res.data;
 
-        if (!res.ok) {
+        if (res.status >= 400) {
           throw new Error("Failed to delete job!");
         }
 
