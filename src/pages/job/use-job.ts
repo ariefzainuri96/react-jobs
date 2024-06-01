@@ -1,23 +1,23 @@
 import { axiosInstance } from "@/data/axios";
 import { JobItem } from "@/model/job-item";
 import { showSimpleToast } from "@/utils/utils";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import useSWRMutation from "swr/mutation";
 
 export const useJob = () => {
   const navigate = useNavigate();
 
-  const { trigger, isMutating } = useSWRMutation(
-    "/jobs",
-    async (url, { arg }: { arg: string }) => {
+  const { status, mutate } = useMutation({
+    mutationKey: ["/jobs"],
+    mutationFn: async (id: string) => {
       try {
-        const res = await axiosInstance.delete(`${url}/${arg}`, {
-          method: "DELETE",
-        });
+        const data = (
+          await axiosInstance.delete<JobItem>(`jobs/${id}`, {
+            method: "DELETE",
+          })
+        ).data;
 
-        const data: JobItem = await res.data;
-
-        if (res.status >= 400) {
+        if (!data) {
           throw new Error("Failed to delete job!");
         }
 
@@ -34,7 +34,7 @@ export const useJob = () => {
         });
       }
     },
-  );
+  });
 
-  return { isMutating, trigger };
+  return { status, mutate };
 };

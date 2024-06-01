@@ -3,21 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { JobItem } from "@/model/job-item";
 import { Link, useParams } from "react-router-dom";
-import useSWR from "swr";
 import { useJob } from "./use-job";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import { axiosInstance } from "@/data/axios";
+import { useQuery } from "@tanstack/react-query";
 
 const JobPage = () => {
   const { id } = useParams();
 
-  const { trigger, isMutating } = useJob();
+  const { status, mutate } = useJob();
 
-  const { data, error, isLoading } = useSWR(`/jobs/${id}`, async (url) => {
-    const res = await axiosInstance.get(url);
-    const data: JobItem = res.data;
-
-    return data;
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["/jobs", id],
+    queryFn: async () => {
+      return (await axiosInstance.get<JobItem>(`/jobs/${id}`)).data;
+    },
   });
 
   if (isLoading) {
@@ -64,13 +64,13 @@ const JobPage = () => {
             <p className="mt-2 text-[18px] font-medium">Contact Email:</p>
             <input
               className="mt-1 rounded-sm bg-blue-50 px-2 py-1 text-[14px] font-bold"
-              defaultValue={data?.company?.contactEmail ?? ""}
+              value={data?.company?.contactEmail ?? ""}
               readOnly
             />
             <p className="mt-1 text-[18px] font-medium">Contact Email:</p>
             <input
               className="mt-1 rounded-sm bg-blue-50 px-2 py-1 text-[14px] font-bold"
-              defaultValue={data?.company?.contactPhone ?? ""}
+              value={data?.company?.contactPhone ?? ""}
               readOnly
             />
           </div>
@@ -83,8 +83,8 @@ const JobPage = () => {
               Edit Job
             </Link>
             <Button
-              aria-disabled={isMutating || isLoading}
-              disabled={isMutating || isLoading}
+              aria-disabled={status == "pending" || isLoading}
+              disabled={status == "pending" || isLoading}
               onClick={() => {
                 const confirm = window.confirm(
                   "Are you sure want to delete this job?",
@@ -92,11 +92,11 @@ const JobPage = () => {
 
                 if (!confirm) return;
 
-                trigger(data?.id ?? "");
+                mutate(data?.id ?? "");
               }}
               className="mt-2 rounded-full bg-red-600 hover:bg-red-700"
             >
-              {isMutating ? <LoadingSpinner /> : "Delete Job"}
+              {status == "pending" ? <LoadingSpinner /> : "Delete Job"}
             </Button>
           </div>
         </div>

@@ -1,9 +1,9 @@
-import useSWR from "swr";
 import { JobItem } from "../../model/job-item";
 import JobListItem from "./job-list-item";
 import { Skeleton } from "../ui/skeleton";
 import { twMerge } from "tailwind-merge";
 import { axiosInstance } from "@/data/axios";
+import { useQuery } from "@tanstack/react-query";
 
 const JobListing = ({
   showAll = false,
@@ -12,12 +12,11 @@ const JobListing = ({
   showAll?: boolean;
   className?: string;
 }) => {
-  const { data, error, isLoading } = useSWR("/jobs", async (url) => {
-    const res = await axiosInstance.get(url);
-
-    const data: JobItem[] = res.data;
-
-    return data;
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["/jobs"],
+    queryFn: async () => {
+      return (await axiosInstance.get<JobItem[]>("/jobs")).data;
+    },
   });
 
   if (error) {

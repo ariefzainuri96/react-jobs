@@ -4,10 +4,9 @@ import { JobItem } from "@/model/job-item";
 import { TAddJob } from "@/model/t-add-job";
 import { ValidationMessage } from "@/model/validation-message";
 import { showSimpleToast } from "@/utils/utils";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { mutate } from "swr";
-import useSWRMutation from "swr/mutation";
 import { z } from "zod";
 
 export default function useAddJob() {
@@ -16,61 +15,55 @@ export default function useAddJob() {
   const [job, setJob] = useState<JobItem | undefined>();
   const [jobErrorMessage, setJobErrorMessage] = useState<ValidationMessage[]>();
 
-  const { trigger: _addJob, isMutating: addJobLoading } = useSWRMutation(
-    "/jobs",
-    async (url) => {
-      try {
-        const res = await axiosInstance.post(url, JSON.stringify(job));
-        const data: JobItem = res.data;
+  const { status: jobStatus, mutate: _addJob } = useMutation({
+    mutationFn: async () => {
+      const data = (
+        await axiosInstance.post<JobItem>("/jobs", JSON.stringify(job))
+      ).data;
 
-        if (res.status > 400) {
-          throw new Error("Failed to post job, please retry!");
-        }
-
-        navigate("/jobs");
-
-        showSimpleToast({
-          title: "Success!",
-          description: `Berhasil membuat job ${data.title}`,
-        });
-      } catch (error) {
-        showSimpleToast({
-          title: "Error!",
-          description: `${error}`,
-        });
-      }
+      return data;
     },
-  );
+    mutationKey: ["/jobs"],
+    onSuccess: (data) => {
+      navigate("/jobs");
 
-  const { trigger: _updateJob, isMutating: updateJobLoading } = useSWRMutation(
-    "/jobs",
-    async (url, { arg }: { arg: string }) => {
-      try {
-        const res = await axiosInstance.put(
-          `${url}/${arg}`,
-          JSON.stringify(job),
-        );
-        const data: JobItem = res.data;
-
-        if (res.status > 400) {
-          throw new Error("Failed to post job, please retry!");
-        }
-
-        // await mutate(`/jobs/${arg}`);
-        navigate(-1);
-
-        showSimpleToast({
-          title: "Success!",
-          description: `Berhasil memperbarui job ${data.title}`,
-        });
-      } catch (error) {
-        showSimpleToast({
-          title: "Error!",
-          description: `${error}`,
-        });
-      }
+      showSimpleToast({
+        title: "Success!",
+        description: `Berhasil membuat job ${data?.title}`,
+      });
     },
-  );
+    onError: (e) => {
+      showSimpleToast({
+        title: "Error!",
+        description: `${e}`,
+      });
+    },
+  });
+
+  const { status: updateJobStatus, mutate: _updateJob } = useMutation({
+    mutationKey: ["/jobs", job?.id],
+    mutationFn: async () => {
+      const data = (
+        await axiosInstance.put<JobItem>(`jobs/${job?.id}`, JSON.stringify(job))
+      ).data;
+
+      return data;
+    },
+    onSuccess: (data) => {
+      navigate(-1);
+
+      showSimpleToast({
+        title: "Success!",
+        description: `Berhasil memperbarui job ${data.title}`,
+      });
+    },
+    onError: (error) => {
+      showSimpleToast({
+        title: "Error!",
+        description: `${error}`,
+      });
+    },
+  });
 
   const addJobSchema = z
     .object({
@@ -200,7 +193,7 @@ export default function useAddJob() {
       return;
     }
 
-    _updateJob(job?.id ?? "");
+    _updateJob();
   }
 
   function handleChange(
@@ -239,8 +232,8 @@ export default function useAddJob() {
     handleCompanyChange,
     handleChange,
     jobType,
-    addJobLoading,
-    updateJobLoading,
+    jobStatus,
+    updateJobStatus,
   };
 
   return data;

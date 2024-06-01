@@ -9,8 +9,8 @@ export type TAddJob = {
   updateJob: () => Promise<void>;
   salary: SelectItem[];
   job: JobItem | undefined;
-  addJobLoading: boolean;
-  updateJobLoading: boolean;
+  jobStatus: "error" | "idle" | "pending" | "success";
+  updateJobStatus: "error" | "idle" | "pending" | "success";
   setJob: React.Dispatch<React.SetStateAction<JobItem | undefined>>;
   handleCompanyChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

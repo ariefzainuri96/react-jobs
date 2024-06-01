@@ -53,20 +53,20 @@
         "name": "Browning Technologies",
         "description": "Browning Technologies is a rapidly growing technology company specializing in e-commerce solutions. We offer a dynamic and collaborative work environment where employees are encouraged to think creatively and innovate.",
         "contactEmail": "contact@consecteturadipisicing.com",
-        "contactPhone": "555-555-5555"
+        "contactPhone": "085792810600"
       }
     },
     {
       "id": "c707",
       "type": "Part-Time",
-      "title": "Flutter Developer's",
-      "description": "Please provide more description about your job",
+      "title": "Flutter Developers",
+      "description": "Please follow along below requirement",
       "salary": "$70K - $80K",
       "location": "Yogyakarta",
       "company": {
         "name": "Arief Corp",
-        "description": "This is company description",
-        "contactEmail": "arief_@gmail.com",
+        "description": "This is company description, please follow along with us",
+        "contactEmail": "ariefcorp@gmail.com",
         "contactPhone": "085792810600"
       }
     }

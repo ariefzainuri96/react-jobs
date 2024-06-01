@@ -5,30 +5,22 @@ import BackButton from "@/components/back-button";
 import AddJobForm from "@/components/add-job-form";
 import useAddJob from "./add-job/use-add-job";
 import { axiosInstance } from "@/data/axios";
-import { useEffect, useState } from "react";
+import { JobItem } from "@/model/job-item";
+import { useQuery } from "@tanstack/react-query";
 
 const EditJobPage = () => {
   const addJob = useAddJob();
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>();
-  const [reload, setReload] = useState(false);
 
   const { id } = useParams();
 
-  useEffect(() => {
-    const getDetail = async () => {
-      try {
-        setLoading(true);
-        const res = await axiosInstance.get(`/jobs/${id}`);
-        setLoading(false);
-        addJob.setJob(res.data);
-      } catch (error) {
-        setError(`${error}`);
-      }
-    };
-
-    getDetail();
-  }, [reload]);
+  const { isLoading, error } = useQuery({
+    queryKey: ["/jobs", id],
+    queryFn: async () => {
+      const data = (await axiosInstance.get<JobItem>(`/jobs/${id}`)).data;
+      addJob.setJob(data);
+      return data;
+    },
+  });
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -40,7 +32,7 @@ const EditJobPage = () => {
         onClick={(e) => {
           e.preventDefault();
 
-          setReload((prev) => !prev);
+          //   setReload((prev) => !prev);
         }}
       >
         Error, Tap to Reload?

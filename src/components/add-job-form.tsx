@@ -168,12 +168,24 @@ const AddJobForm = ({
           }
         />
         <Button
-          aria-disabled={addJob.addJobLoading}
-          disabled={addJob.addJobLoading}
+          aria-disabled={
+            isEdit
+              ? addJob.updateJobStatus == "pending"
+              : addJob.jobStatus == "pending"
+          }
+          disabled={
+            isEdit
+              ? addJob.updateJobStatus == "pending"
+              : addJob.jobStatus == "pending"
+          }
           type="submit"
           className="mt-4"
         >
-          {(isEdit ? addJob.updateJobLoading : addJob.addJobLoading) ? (
+          {(
+            isEdit
+              ? addJob.updateJobStatus == "pending"
+              : addJob.jobStatus == "pending"
+          ) ? (
             <LoadingSpinner />
           ) : isEdit ? (
             "Update"
