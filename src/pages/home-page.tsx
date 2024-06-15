@@ -17,7 +17,7 @@ const HomePage = () => {
 
   return (
     <div
-      className="w-full flex-1 overflow-y-auto"
+      className="flex w-full flex-1 flex-col overflow-y-auto"
       ref={divRef}
       onScroll={(event) => {
         localStorage.setItem(
