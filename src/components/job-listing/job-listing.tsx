@@ -1,9 +1,9 @@
-import { JobItem } from "../../model/job-item";
 import JobListItem from "./job-list-item";
 import { Skeleton } from "../ui/skeleton";
 import { twMerge } from "tailwind-merge";
 import { axiosInstance } from "@/data/axios";
 import { useQuery } from "@tanstack/react-query";
+import { JobsResponse } from "@/model/response/jobs-response";
 
 const JobListing = ({
   showAll = false,
@@ -15,7 +15,7 @@ const JobListing = ({
   const { data, error, isLoading } = useQuery({
     queryKey: ["/jobs"],
     queryFn: async () => {
-      return (await axiosInstance.get<JobItem[]>("/jobs")).data;
+      return (await axiosInstance.get<JobsResponse>("/jobs")).data.data;
     },
   });
 
@@ -26,11 +26,9 @@ const JobListing = ({
   return (
     <section className={twMerge("bg-blue-50 px-4 py-10", className)}>
       <div className="container-xl m-auto lg:container">
-        {!showAll && (
-          <h2 className="mb-6 text-center text-3xl font-bold text-indigo-500">
-            Browse Jobs
-          </h2>
-        )}
+        <h2 className="mb-6 text-center text-3xl font-bold text-indigo-500">
+          {showAll ? "Browse Jobs" : "Recent Jobs"}
+        </h2>
 
         {isLoading && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -41,11 +39,12 @@ const JobListing = ({
         )}
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {(showAll ? data ?? [] : (data ?? []).slice(0, 3)).map(
-            (element, index) => {
-              return <JobListItem element={element} key={index} />;
-            },
-          )}
+          {(showAll
+            ? data ?? []
+            : (data ?? []).slice((data ?? []).length - 3, data?.length)
+          ).map((element, index) => {
+            return <JobListItem element={element} key={index} />;
+          })}
         </div>
       </div>
     </section>

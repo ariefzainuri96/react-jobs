@@ -1,6 +1,7 @@
 import { SelectItem } from "@/components/custom-select";
 import { axiosInstance } from "@/data/axios";
-import { JobItem } from "@/model/job-item";
+import { JobsDetailResponse } from "@/model/response/jobs-detail-response";
+import { JobItem } from "@/model/response/jobs-response";
 import { TAddJob } from "@/model/t-add-job";
 import { ValidationMessage } from "@/model/validation-message";
 import { showSimpleToast } from "@/utils/utils";
@@ -18,10 +19,13 @@ export default function useAddJob() {
   const { status: jobStatus, mutate: _addJob } = useMutation({
     mutationFn: async () => {
       const data = (
-        await axiosInstance.post<JobItem>("/jobs", JSON.stringify(job))
+        await axiosInstance.post<JobsDetailResponse>(
+          "/jobs",
+          JSON.stringify(job),
+        )
       ).data;
 
-      return data;
+      return data.data;
     },
     mutationKey: ["/jobs"],
     onSuccess: (data) => {
@@ -41,13 +45,16 @@ export default function useAddJob() {
   });
 
   const { status: updateJobStatus, mutate: _updateJob } = useMutation({
-    mutationKey: ["/jobs", job?.id],
+    mutationKey: ["/jobs", job?._id],
     mutationFn: async () => {
       const data = (
-        await axiosInstance.put<JobItem>(`jobs/${job?.id}`, JSON.stringify(job))
+        await axiosInstance.put<JobsDetailResponse>(
+          `jobs/${job?._id}`,
+          JSON.stringify(job),
+        )
       ).data;
 
-      return data;
+      return data.data;
     },
     onSuccess: (data) => {
       navigate(-1);

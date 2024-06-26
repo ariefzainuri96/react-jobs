@@ -1,5 +1,5 @@
+import { JobItem } from "@/model/response/jobs-response";
 import { useState } from "react";
-import { JobItem } from "../../model/job-item";
 import { FaMapMarker } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -45,7 +45,7 @@ const JobListItem = ({ element }: { element: JobItem }) => {
             {element.location}
           </div>
           <Link
-            to={`/jobs/${element.id}`}
+            to={`/jobs/${element._id}`}
             className="h-[36px] rounded-lg bg-indigo-500 px-4 py-2 text-center text-sm text-white hover:bg-indigo-600"
           >
             Read More

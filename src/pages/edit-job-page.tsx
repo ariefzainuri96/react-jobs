@@ -5,18 +5,19 @@ import BackButton from "@/components/back-button";
 import AddJobForm from "@/components/add-job-form";
 import useAddJob from "./add-job/use-add-job";
 import { axiosInstance } from "@/data/axios";
-import { JobItem } from "@/model/job-item";
 import { useQuery } from "@tanstack/react-query";
+import { JobsDetailResponse } from "@/model/response/jobs-detail-response";
 
 const EditJobPage = () => {
   const addJob = useAddJob();
 
   const { id } = useParams();
 
-  const { isLoading, error } = useQuery({
+  const { isLoading, error, refetch } = useQuery({
     queryKey: ["/jobs", id],
     queryFn: async () => {
-      const data = (await axiosInstance.get<JobItem>(`/jobs/${id}`)).data;
+      const data = (await axiosInstance.get<JobsDetailResponse>(`/jobs/${id}`))
+        .data.data;
       addJob.setJob(data);
       return data;
     },
@@ -32,7 +33,7 @@ const EditJobPage = () => {
         onClick={(e) => {
           e.preventDefault();
 
-          //   setReload((prev) => !prev);
+          refetch();
         }}
       >
         Error, Tap to Reload?

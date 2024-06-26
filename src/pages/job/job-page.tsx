@@ -1,12 +1,12 @@
 import BackButton from "@/components/back-button";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { JobItem } from "@/model/job-item";
 import { Link, useParams } from "react-router-dom";
 import { useJob } from "./use-job";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import { axiosInstance } from "@/data/axios";
 import { useQuery } from "@tanstack/react-query";
+import { JobsDetailResponse } from "@/model/response/jobs-detail-response";
 
 const JobPage = () => {
   const { id } = useParams();
@@ -16,7 +16,8 @@ const JobPage = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["/jobs", id],
     queryFn: async () => {
-      return (await axiosInstance.get<JobItem>(`/jobs/${id}`)).data;
+      return (await axiosInstance.get<JobsDetailResponse>(`/jobs/${id}`)).data
+        .data;
     },
   });
 
@@ -78,7 +79,7 @@ const JobPage = () => {
             <p className="text-[16px] font-bold">Manage Job</p>
             <Link
               className="mt-3 rounded-full bg-purple-600 py-2 text-center text-white hover:bg-purple-700"
-              to={`/edit-job/${data?.id}`}
+              to={`/edit-job/${data?._id}`}
             >
               Edit Job
             </Link>
@@ -92,7 +93,7 @@ const JobPage = () => {
 
                 if (!confirm) return;
 
-                mutate(data?.id ?? "");
+                mutate(data?._id ?? "");
               }}
               className="mt-2 rounded-full bg-red-600 hover:bg-red-700"
             >

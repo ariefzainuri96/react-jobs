@@ -15,7 +15,7 @@ const JobsPage = () => {
   return (
     <div
       ref={divRef}
-      className="overflow-y-auto"
+      className="main bg-blue-50"
       onScroll={(e) => {
         localStorage.setItem(
           "scrollPositionJobs",

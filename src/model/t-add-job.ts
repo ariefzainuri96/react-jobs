@@ -1,6 +1,6 @@
 import { SelectItem } from "@/components/custom-select";
-import { JobItem } from "./job-item";
 import { ValidationMessage } from "./validation-message";
+import { JobItem } from "./response/jobs-response";
 
 export type TAddJob = {
   jobType: SelectItem[];

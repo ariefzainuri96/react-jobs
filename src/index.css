@@ -1,4 +1,13 @@
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-  
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .main {
+    @apply flex h-full w-full flex-col overflow-y-auto;
+  }
+
+  .base-card {
+    @apply flex flex-col items-start rounded-md bg-white p-4;
+  }
+}
