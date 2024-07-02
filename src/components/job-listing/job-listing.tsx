@@ -1,9 +1,9 @@
 import JobListItem from "./job-list-item";
 import { Skeleton } from "../ui/skeleton";
 import { twMerge } from "tailwind-merge";
-import { axiosInstance } from "@/data/axios";
 import { useQuery } from "@tanstack/react-query";
 import { JobsResponse } from "@/model/response/jobs-response";
+import { useAxios } from "@/data/axios";
 
 const JobListing = ({
   showAll = false,
@@ -12,6 +12,8 @@ const JobListing = ({
   showAll?: boolean;
   className?: string;
 }) => {
+  const axiosInstance = useAxios();
+
   const { data, error, isLoading } = useQuery({
     queryKey: ["/jobs"],
     queryFn: async () => {
@@ -41,7 +43,10 @@ const JobListing = ({
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {(showAll
             ? data ?? []
-            : (data ?? []).slice((data ?? []).length - 3, data?.length)
+            : (data ?? []).slice(
+                (data ?? []).length < 3 ? 0 : (data ?? []).length - 3,
+                (data ?? []).length,
+              )
           ).map((element, index) => {
             return <JobListItem element={element} key={index} />;
           })}

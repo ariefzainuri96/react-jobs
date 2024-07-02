@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/data/axios";
+import { useAxios } from "@/data/axios";
 import { JobsDetailResponse } from "@/model/response/jobs-detail-response";
 import { showSimpleToast } from "@/utils/utils";
 import { useMutation } from "@tanstack/react-query";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export const useJob = () => {
   const navigate = useNavigate();
+  const axiosInstance = useAxios();
 
   const { status, mutate } = useMutation({
     mutationKey: ["/jobs"],

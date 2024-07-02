@@ -4,11 +4,12 @@ import { useParams } from "react-router-dom";
 import BackButton from "@/components/back-button";
 import AddJobForm from "@/components/add-job-form";
 import useAddJob from "./add-job/use-add-job";
-import { axiosInstance } from "@/data/axios";
 import { useQuery } from "@tanstack/react-query";
 import { JobsDetailResponse } from "@/model/response/jobs-detail-response";
+import { useAxios } from "@/data/axios";
 
 const EditJobPage = () => {
+  const axiosInstance = useAxios();
   const addJob = useAddJob();
 
   const { id } = useParams();

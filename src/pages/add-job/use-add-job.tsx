@@ -1,5 +1,5 @@
 import { SelectItem } from "@/components/custom-select";
-import { axiosInstance } from "@/data/axios";
+import { useAxios } from "@/data/axios";
 import { JobsDetailResponse } from "@/model/response/jobs-detail-response";
 import { JobItem } from "@/model/response/jobs-response";
 import { TAddJob } from "@/model/t-add-job";
@@ -13,6 +13,7 @@ import { z } from "zod";
 export default function useAddJob() {
   const navigate = useNavigate();
 
+  const axiosInstance = useAxios();
   const [job, setJob] = useState<JobItem | undefined>();
   const [jobErrorMessage, setJobErrorMessage] = useState<ValidationMessage[]>();
 

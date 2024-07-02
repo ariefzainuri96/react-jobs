@@ -4,11 +4,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Link, useParams } from "react-router-dom";
 import { useJob } from "./use-job";
 import { LoadingSpinner } from "@/components/loading-spinner";
-import { axiosInstance } from "@/data/axios";
 import { useQuery } from "@tanstack/react-query";
 import { JobsDetailResponse } from "@/model/response/jobs-detail-response";
+import { useAxios } from "@/data/axios";
 
 const JobPage = () => {
+  const axiosInstance = useAxios();
   const { id } = useParams();
 
   const { status, mutate } = useJob();

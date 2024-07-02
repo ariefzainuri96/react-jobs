@@ -10,4 +10,8 @@
   .base-card {
     @apply flex flex-col items-start rounded-md bg-white p-4;
   }
+
+  .col-start {
+    @apply flex flex-col items-start;
+  }
 }

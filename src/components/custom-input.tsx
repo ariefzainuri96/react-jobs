@@ -1,22 +1,23 @@
-import { ComponentProps } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 type CustomInputProps = {
   label: string;
   className?: string;
   message?: string | undefined;
-} & ComponentProps<"input">;
+} & ComponentPropsWithoutRef<"input">;
 
 const CustomInput = ({
   className,
   label,
   message,
-
   ...props
 }: CustomInputProps) => {
   return (
     <div className={className}>
-      <p className="text-sm font-medium text-[#344054]">{label}</p>
+      <label htmlFor={props.id} className="text-sm font-medium text-[#344054]">
+        {label}
+      </label>
       <input
         className={twMerge(
           "mt-[6px] w-full rounded-lg border-[1px] border-slate-100 px-[14px] py-[10px] text-[16px] outline-none",
