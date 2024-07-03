@@ -1,9 +1,12 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo.png";
+import { useAuth } from "@/hooks/use-auth";
 // import { useToast } from "./ui/use-toast";
 
 const Navbar = () => {
   // const { toast } = useToast();
+  const auth = useAuth();
+  const navigate = useNavigate();
   const linkClassName = (isActive: boolean) =>
     isActive
       ? "rounded-md bg-black px-3 py-2 text-white hover:bg-gray-900 hover:text-white"
@@ -29,7 +32,6 @@ const Navbar = () => {
                 >
                   Home
                 </NavLink>
-
                 <NavLink
                   to="/jobs"
                   className={({ isActive }) => linkClassName(isActive)}
@@ -41,6 +43,20 @@ const Navbar = () => {
                   className={({ isActive }) => linkClassName(isActive)}
                 >
                   Add Job
+                </NavLink>
+                <NavLink
+                  to=""
+                  onClick={(e) => {
+                    e.preventDefault();
+
+                    console.log("logout");
+
+                    auth.setUser(null);
+                    navigate("/", { replace: true });
+                  }}
+                  className={linkClassName(false)}
+                >
+                  Logout
                 </NavLink>
               </div>
             </div>

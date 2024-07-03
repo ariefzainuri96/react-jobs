@@ -1,19 +1,14 @@
 import { useAxios } from "@/data/axios";
-import { TUser, useAuth } from "@/hooks/use-auth";
-import { LoginResponse } from "@/model/response/login-response";
+import { useAuth } from "@/hooks/use-auth";
 import { showSimpleToast } from "@/utils/utils";
 import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-// import { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { TLogin } from "../login/use-login";
+import { RegisterResponse } from "@/model/response/register-response";
+import { AxiosError } from "axios";
 
-export type TLogin = {
-  email?: string;
-  password?: string;
-};
-
-export const useLogin = () => {
+export const useRegister = () => {
   const [form, setForm] = useState<TLogin | null>(null);
   const auth = useAuth();
   const axiosInstance = useAxios(false);
@@ -30,11 +25,11 @@ export const useLogin = () => {
   }
 
   // call this function when you want to authenticate the user
-  const { mutate: login, isPending: isLoginPending } = useMutation({
+  const { mutate: register, isPending: isRegisterPending } = useMutation({
     mutationFn: async () => {
       const response = (
-        await axiosInstance.post<LoginResponse>(
-          "/users/login",
+        await axiosInstance.post<RegisterResponse>(
+          "/users/register",
           JSON.stringify(form),
           {
             method: "POST",
@@ -42,15 +37,15 @@ export const useLogin = () => {
         )
       ).data;
 
-      return {
-        email: form?.email,
-        token: response.data,
-      } as TUser;
+      return response;
     },
     onSuccess: (data) => {
       if (!auth) return;
-      auth.setUser(data);
-      navigate("/", { replace: true });
+      showSimpleToast({
+        title: "Success!",
+        description: `You have successfully registered with email: ${data.data.email}`,
+      });
+      navigate("/login", { replace: true });
     },
     onError: (error) => {
       let errorMessage = "Something went wrong!";
@@ -66,5 +61,5 @@ export const useLogin = () => {
     },
   });
 
-  return { login, handleChange, isLoginPending };
+  return { register, handleChange, isRegisterPending };
 };
