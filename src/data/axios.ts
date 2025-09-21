@@ -5,7 +5,7 @@ export const useAxios = (useReactPrefix = true) => {
   const auth = useAuth();
 
   const axiosInstance = axios.create({
-    baseURL: `https://backend-frontend-jobs.vercel.app/${useReactPrefix ? "react" : ""}`,
+    baseURL: `http://205.198.87.68:3001/${useReactPrefix ? "react" : ""}`,
     timeout: 10000,
     headers: {
       "Content-Type": "application/json",
