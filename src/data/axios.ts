@@ -5,7 +5,7 @@ export const useAxios = (useReactPrefix = true) => {
   const auth = useAuth();
 
   const axiosInstance = axios.create({
-    baseURL: `https://zain-api.xyz:3001/${useReactPrefix ? "react" : ""}`,
+    baseURL: `https://zain-api.xyz/${useReactPrefix ? "react" : ""}`,
     timeout: 10000,
     headers: {
       "Content-Type": "application/json",
